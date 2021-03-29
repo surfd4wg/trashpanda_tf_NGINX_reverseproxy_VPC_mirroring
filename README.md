@@ -8,11 +8,11 @@ The variables in variables.tf must be modified to contain your specific settings
 
 Once the Machine is running in AWS EC2... you will see the username and password credentials in the /$HOME/rdpcreds.txt file. This user has sudo privileges so !!**** please change your password for this user, the ubuntu user and also the root user ****!!
 
-SSH into the machine using the Public DNS (IPv4) address in the EC2 console, for the instance, and your private key. ssh -i ~/.ssh/.pem Administrator@ec2-X-X-X-X.compute-1.amazonaws.com
+SSH into the machine using the Public DNS (IPv4) address in the EC2 console, for the instance, and your private key. ssh -i ~/.ssh/(key file).pem ubuntu@ec2-X-X-X-X.compute-1.amazonaws.com
 
 If you want to RDP into the machine you will need to install ubuntu desktop. 
 https://linuxize.com/post/how-to-install-xrdp-on-ubuntu-20-04/
-In that case you will need a machine bigger than t2.micro. You can remote desktop in using the Public DNS (IPv4) address in the EC2 console, for the instance. You will need to download an RDP client. https://docs.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/remote-desktop-clients
+In that case you will need a machine bigger than t2.micro. You can remote desktop in using the Public DNS (IPv4) address in the EC2 console, for the instance. You will need to download an RDP client.
 
 To tail the Ec2 user data installation log: 
 sudo tail -f /var/log/cloud-init-output.log
@@ -20,8 +20,6 @@ sudo tail -f /var/log/cloud-init-output.log
 If the Armor Agent installed correctly, you should see the /opt/armor directory. 
 
 If Apache installs correctly, you should be able to curl localhost.
-
-To change the dimensions of the powershell command window: #Powershell Command Window Size $pshost = get-host $pswindow = $pshost.ui.rawui $newsize = $pswindow.buffersize $newsize.height = 3000 $newsize.width = 200 $pswindow.buffersize = $newsize $newsize = $pswindow.windowsize $newsize.height = 90 $newsize.width = 200 $pswindow.windowsize = $newsize
 
 To grep for processes, ps aux | grep armor
 
