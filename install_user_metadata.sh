@@ -14,15 +14,15 @@ echo "<h1>Deployed via Terraform</h1>" | sudo tee /var/www/html/index.html
 sudo apt-get -y install curl unzip
 sudo apt-get -y install jq
 #--- Chrome ---
-sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt-get -y install ./google-chrome-stable_current_amd64.deb
+#sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#sudo apt-get -y install ./google-chrome-stable_current_amd64.deb
 #--- Remote Desktop ---
-sudo apt-get -y install xrdp
-sudo systemctl enable --now xrdp
-sudo ufw allow from any to any port 3389 proto tcp
+#sudo apt-get -y install xrdp
+#sudo systemctl enable --now xrdp
+#sudo ufw allow from any to any port 3389 proto tcp
 #--- Add a new user for Remote Desktop ---
 #Make sure you run "passwd" to set a new password to this account
-#The username and password will be located in $HOME/rdpcreds.txt
+#The username and password will be located in /rdpcreds.txt
 USERNAME=teddy
 sudo adduser $USERNAME --quiet --disabled-password --gecos ""
 sudo usermod -aG sudo $USERNAME
