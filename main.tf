@@ -150,7 +150,7 @@ resource "aws_instance" "webserver" {
   vpc_security_group_ids      = [aws_security_group.allowall.id]
   subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = true
-  user_data = "${file("install_user_metadata.sh")}"
+  user_data = "${file("install_userdata_ubuntu.sh")}"
 #  provisioner "remote-exec" {
 #    inline = [
 #      "sudo apt update",
