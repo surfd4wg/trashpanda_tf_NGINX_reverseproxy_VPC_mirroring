@@ -6,7 +6,7 @@ Rename variables.example to variables.tf, in the same directory as the main.tf f
 
 The variables in variables.tf must be modified to contain your specific settings. The Armor Agent Key is also in variables.tf.
 
-Once the Machine is running in AWS EC2... you will see the username and password credentials in the /$HOME/rdpcreds.txt file. This user has sudo privileges so !!**** please change your password for this user, the ubuntu user and also the root user ****!!
+Once the Machine is running in AWS EC2... you will see the username and password credentials in the /rdpcreds.txt file. This user has sudo privileges so !!**** please change your password for this user, the ubuntu user and also the root user ****!!
 
 SSH into the machine using the Public DNS (IPv4) address in the EC2 console, for the instance, and your private key. ssh -i ~/.ssh/(key file).pem ubuntu@ec2-X-X-X-X.compute-1.amazonaws.com
 
@@ -32,5 +32,15 @@ To run this terraform script:
 5) terraform apply
 To destroy the same - remove everything from AWS EC2:
 6) terraform destroy 
+-----
+The appropriate user names are as follows:
+For Amazon Linux 2 or the Amazon Linux AMI, the user name is "ec2-user".
+For a CentOS AMI, the user name is "centos".
+For a Debian AMI, the user name is "admin".
+For a Fedora AMI, the user name is "ec2-user" or "fedora".
+For a RHEL AMI, the user name is "ec2-user" or "root".
+For a SUSE AMI, the user name is "ec2-user" or "root".
+For an Ubuntu AMI, the user name is "ubuntu".
+Otherwise, if ec2-user and root don't work, check with the AMI provider.
 
 
