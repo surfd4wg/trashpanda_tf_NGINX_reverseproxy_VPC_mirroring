@@ -1,14 +1,16 @@
 This is a Terraform script that automatically builds an Ubuntu Server in AWS EC2. It also installs various programs through a EC2 user data shell script. The various programs are: -Armor Agent 3.0 -Chrome -Apache2 -xrdp -User + Password for Remote Desktop
 
-Change the ARMOR License Key in the install_user_metadata.sh file.
+Change the ARMOR License Key in the install_userdata_ubuntu.sh file.
 
 Rename variables.example to variables.tf, in the same directory as the main.tf file.
 
 The variables in variables.tf must be modified to contain your specific settings.
 
-Once the Machine is running in AWS EC2... you will see the username and password credentials in the /rdpcreds.txt file. This user has sudo privileges so !!**** please change your password for this user, the ubuntu user and also the root user ****!!
+Once the Machine is running in AWS EC2... you will see the username and password credentials in the /rdpcreds.txt file. 
+This user has sudo privileges so !!**** please change your password for this user, the ubuntu user and also the root user ****!!
 
-SSH into the machine using the Public DNS (IPv4) address in the EC2 console, for the instance, and your private key. ssh -i ~/.ssh/(key file).pem ubuntu@ec2-X-X-X-X.compute-1.amazonaws.com
+SSH into the machine using the Public DNS (IPv4) address in the EC2 console, for the instance, and your private key. 
+ssh -i ~/.ssh/(key file).pem ubuntu@ec2-X-X-X-X.compute-1.amazonaws.com
 
 If you want to RDP into the machine you will need to install ubuntu desktop. 
 https://linuxize.com/post/how-to-install-xrdp-on-ubuntu-20-04/
