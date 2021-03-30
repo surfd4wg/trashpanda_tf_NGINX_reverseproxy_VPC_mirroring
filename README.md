@@ -4,7 +4,7 @@ Change the ARMOR License Key in the install_user_metadata.sh file.
 
 Rename variables.example to variables.tf, in the same directory as the main.tf file.
 
-The variables in variables.tf must be modified to contain your specific settings. The Armor Agent Key is also in variables.tf.
+The variables in variables.tf must be modified to contain your specific settings.
 
 Once the Machine is running in AWS EC2... you will see the username and password credentials in the /rdpcreds.txt file. This user has sudo privileges so !!**** please change your password for this user, the ubuntu user and also the root user ****!!
 
