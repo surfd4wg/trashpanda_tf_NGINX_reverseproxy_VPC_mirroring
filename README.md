@@ -31,9 +31,13 @@ To run this terraform script:
 4) terraform plan
 5) terraform apply
 To destroy the same - remove everything from AWS EC2:
-6) terraform destroy 
+6) terraform destroy
+Ref:
+https://www.terraform.io/docs/cli/commands/get.html
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs
+
 -----
-The appropriate user names are as follows:
+The appropriate user names (According to AWS) are as follows:
 For Amazon Linux 2 or the Amazon Linux AMI, the user name is "ec2-user".
 For a CentOS AMI, the user name is "centos".
 For a Debian AMI, the user name is "admin".
@@ -42,5 +46,7 @@ For a RHEL AMI, the user name is "ec2-user" or "root".
 For a SUSE AMI, the user name is "ec2-user" or "root".
 For an Ubuntu AMI, the user name is "ubuntu".
 Otherwise, if ec2-user and root don't work, check with the AMI provider.
+Ref:
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.html
 
 
