@@ -1,11 +1,21 @@
+variable "region" {
+  description = "AWS Region to use"  
+  default = "us-east-1"
+}
+
+variable "avail_zone" {
+  description = "AWS Availability zone"
+  default = "us-east-1a"
+}
+
 variable "public_key_path" {
   description = "Path to the public SSH key you want to bake into the instance."
-  default     = "~/.ssh/<your key filename>.pub"
+  default     = "~/.ssh/(keyfile).pub"
 }
 
 variable "private_key_path" {
   description = "Path to the private SSH key, used to access the instance."
-  default     = "~/.ssh/<your key filename>.pem"
+  default     = "~/.ssh/(keyfile).pem"
 }
 
 variable "project_name" {
@@ -15,7 +25,7 @@ variable "project_name" {
 
 variable "ssh_user" {
   description = "SSH user name to connect to your instance."
-  default     = "ubuntu"
+  default     = "admin"
 }
 
 variable "access_key" {
@@ -30,7 +40,7 @@ variable "secret_key" {
 
 variable "myname" {
   description = "Default Name tag for AWS Resources"
-  default     = "terraform"
+  default     = "Suse"
 }
 
 variable "mydept" {
@@ -50,7 +60,7 @@ variable "mystack" {
 
 variable "myenv" {
   description = "Default Env tag for AWS Resources"
-  default     = "customer-armor-labs-1"
+  default     = "YourOrg"
 }
 
 variable "ami_id" {
@@ -58,4 +68,7 @@ variable "ami_id" {
   default     = 1234567890
 }
 
-
+variable "instance_count" {
+  description = "Number of instances to launch"
+  default = 2
+}

@@ -1,6 +1,5 @@
-
 provider "aws" {
-  region     = "us-east-1"
+  region     = var.region
   access_key = var.access_key
   secret_key = var.secret_key
 }
@@ -14,124 +13,28 @@ resource "random_id" "server" {
   byte_length = 8
 }
 
-resource "aws_vpc" "main" {
-  cidr_block = "10.1.0.0/16"
-  tags = merge(
-	local.common_tags,
-
-	tomap(
-	  {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "aws_vpc"
-	  }
-	)
-	)
-  enable_dns_hostnames = true 
-}
-
-resource "aws_internet_gateway" "main" {
-  vpc_id = aws_vpc.main.id
-  tags = merge(
-        local.common_tags,
-
-        tomap(
-          {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "internet gateway"
-          }
-        )
-        )
-}
-resource "aws_subnet" "main" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.1.1.0/24"
-  availability_zone = "us-east-1a"
-  tags = merge(
-        local.common_tags,
-
-        tomap(
-          {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "subnet"
-          }
-        )
-        )
-}
-
-resource "aws_route_table" "default" {
-  vpc_id = aws_vpc.main.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.main.id
-  }
-  tags = merge(
-        local.common_tags,
-
-        tomap(
-          {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "routing table"
-          }
-        )
-        )
-}
-
-resource "aws_route_table_association" "main" {
-  subnet_id      = aws_subnet.main.id
-  route_table_id = aws_route_table.default.id
-
-}
-
-resource "aws_eip" "webserver" {
-  instance   = aws_instance.webserver.id
-  vpc        = true
-  depends_on = [aws_internet_gateway.main]
-  tags = merge(
-        local.common_tags,
-
-        tomap(
-          {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "eip"
-          }
-        )
-        )
-}
-
-resource "aws_key_pair" "terraform_pub_key" {
-  key_name   = "craigums-${random_id.server.hex}" 
-  public_key = file("~/.ssh/surfkey.pub")
-  tags = merge(
-        local.common_tags,
-
-        tomap(
-          {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "keypair"
-          }
-        )
-        )
-}
-
-data "aws_ami" "ubuntu" {
+data "aws_ami" "suse" {
   most_recent = true
   tags = merge(
         local.common_tags,
 
         tomap(
           {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "ubuntu server"
+          "RESOURCE" = "suse server"
           }
         )
         )
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
+    values = ["*suse-sles-15-sp2-v20210303-hvm-ssd-x86_64*"]
   }
 
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-
-  owners = ["099720109477"] # Canonical
-
+  owners = ["amazon"] # Amazon
 }
-
 
 resource "aws_instance" "webserver" {
   tags = merge(
@@ -140,17 +43,19 @@ resource "aws_instance" "webserver" {
         tomap(
           {"Zoo" = "AWS Zoofarm"
           "RESOURCE" = "webserver AMI"
+	  "Name" = "${var.myname}-${random_id.server.hex}-${count.index + 1}"
           }
         )
         )
-  ami                         = data.aws_ami.ubuntu.id
-  availability_zone           = "us-east-1a"
+  ami                         = data.aws_ami.suse.id
+  availability_zone           = var.avail_zone
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.terraform_pub_key.key_name
   vpc_security_group_ids      = [aws_security_group.allowall.id]
   subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = true
-  user_data = "${file("install_userdata_ubuntu.sh")}"
+  user_data = "${file("install_userdata_suse.sh")}"
+  count = var.instance_count
 #  provisioner "remote-exec" {
 #    inline = [
 #      "sudo apt update",
