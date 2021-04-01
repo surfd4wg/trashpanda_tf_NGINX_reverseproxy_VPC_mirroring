@@ -1,5 +1,5 @@
 provider "aws" {
-  region     = var.region
+  region     = "us-east-1"
   access_key = var.access_key
   secret_key = var.secret_key
 }
@@ -13,27 +13,29 @@ resource "random_id" "server" {
   byte_length = 8
 }
 
-data "aws_ami" "suse" {
+data "aws_ami" "ubuntu" {
   most_recent = true
   tags = merge(
         local.common_tags,
 
         tomap(
           {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "suse server"
+          "RESOURCE" = "ubuntu server"
           }
         )
         )
   filter {
     name   = "name"
-    values = ["*suse-sles-15-sp2-v20210303-hvm-ssd-x86_64*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
   }
 
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-  owners = ["amazon"] # Amazon
+
+  owners = ["099720109477"] # Canonical
+
 }
 
 resource "aws_instance" "webserver" {
@@ -42,20 +44,21 @@ resource "aws_instance" "webserver" {
 
         tomap(
           {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "webserver AMI"
-	  "Name" = "${var.myname}-${random_id.server.hex}-${count.index + 1}"
+	   "Name" = "${var.myname}-${random_id.server.hex}-${count.index + 1}"
+           "RESOURCE" = "webserver AMI"
           }
         )
         )
-  ami                         = data.aws_ami.suse.id
-  availability_zone           = var.avail_zone
+  ami                         = data.aws_ami.ubuntu.id
+  availability_zone           = "us-east-1a"
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.terraform_pub_key.key_name
   vpc_security_group_ids      = [aws_security_group.allowall.id]
   subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = true
-  user_data = "${file("install_userdata_suse.sh")}"
+  user_data = "${file("install_userdata_ubuntu.sh")}"
   count = var.instance_count
+
 #  provisioner "remote-exec" {
 #    inline = [
 #      "sudo apt update",
