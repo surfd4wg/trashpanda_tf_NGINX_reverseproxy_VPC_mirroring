@@ -62,12 +62,10 @@ resource "aws_route_table_association" "main" {
 }
 
 resource "aws_eip" "webserver" {
-#  instance   = aws_instance.webserver.id
-  vpc        = true
-  depends_on = [aws_internet_gateway.main]
   count = var.instance_count
   instance = aws_instance.webserver[count.index].id
-
+  vpc        = true
+  depends_on = [aws_internet_gateway.main]
   tags = merge(
         local.common_tags,
 

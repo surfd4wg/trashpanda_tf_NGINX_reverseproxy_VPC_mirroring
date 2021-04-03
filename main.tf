@@ -1,5 +1,5 @@
 provider "aws" {
-  region     = "us-east-1"
+  region     = var.region
   access_key = var.access_key
   secret_key = var.secret_key
 }
@@ -13,20 +13,20 @@ resource "random_id" "server" {
   byte_length = 8
 }
 
-data "aws_ami" "ubuntu" {
+data "aws_ami" "centos" {
   most_recent = true
   tags = merge(
         local.common_tags,
 
         tomap(
           {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "ubuntu server"
+          "RESOURCE" = "centos server"
           }
         )
         )
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
+    values = ["CentOS 8.3.2011 x86_64"]
   }
 
   filter {
@@ -34,9 +34,11 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  owners = ["099720109477"] # Canonical
+  owners = ["125523088429"] # Centos
+
 
 }
+
 
 resource "aws_instance" "webserver" {
   tags = merge(
@@ -44,21 +46,20 @@ resource "aws_instance" "webserver" {
 
         tomap(
           {"Zoo" = "AWS Zoofarm"
-	   "Name" = "${var.myname}-${random_id.server.hex}-${count.index + 1}"
-           "RESOURCE" = "webserver AMI"
+          "RESOURCE" = "webserver AMI"
+	  "Name" = "${var.myname}-${random_id.server.hex}-${count.index + 1}"
           }
         )
         )
-  ami                         = data.aws_ami.ubuntu.id
-  availability_zone           = "us-east-1a"
+  ami                         = data.aws_ami.centos.id
+  availability_zone           = var.avail_zone
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.terraform_pub_key.key_name
   vpc_security_group_ids      = [aws_security_group.allowall.id]
   subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = true
-  user_data = "${file("install_userdata_ubuntu.sh")}"
+  user_data = "${file("install_userdata_centos.sh")}"
   count = var.instance_count
-
 #  provisioner "remote-exec" {
 #    inline = [
 #      "sudo apt update",
