@@ -1,17 +1,3 @@
-resource "aws_key_pair" "terraform_pub_key" {
-  key_name   = "craigums-${random_id.server.hex}"
-  public_key = file("~/.ssh/surfkey.pub")
-  tags = merge(
-        local.common_tags,
-
-        tomap(
-          {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "keypair"
-          }
-        )
-        )
-}
-
 resource "aws_network_acl" "allowall" {
   vpc_id = aws_vpc.main.id
   tags = merge(
@@ -19,7 +5,8 @@ resource "aws_network_acl" "allowall" {
 
         tomap(
           {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "security group"
+	   "Name" = "nacl-${var.myname}-${random_id.server.hex}"
+           "RESOURCE" = "security group"
           }
         )
         )
@@ -53,7 +40,8 @@ resource "aws_security_group" "allowall" {
 
         tomap(
           {"Zoo" = "AWS Zoofarm"
-          "RESOURCE" = "security group"
+	   "Group Name" = "secgroup-${var.myname}-${random_id.server.hex}"
+           "RESOURCE" = "security group"
           }
         )
         )
@@ -190,4 +178,18 @@ resource "aws_security_group" "allowall" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
     }
+}
+
+resource "aws_key_pair" "terraform_pub_key" {
+  key_name   = "craigums-${random_id.server.hex}"
+  public_key = file("~/.ssh/surfkey.pub")
+  tags = merge(
+        local.common_tags,
+
+        tomap(
+          {"Zoo" = "AWS Zoofarm"
+          "RESOURCE" = "keypair"
+          }
+        )
+        )
 }

@@ -48,7 +48,7 @@ sudo echo "WHO I AM:"$WHOIAM
 
 #--- Armor Agent ---
 banner "Installing the Armor Agent"
-sudo curl -sSL https://agent.armor.com/latest/armor_agent.sh | sudo bash /dev/stdin -l XXXXX-XXXXX-XXXXX-XXXXX-XXXXX -r us-west-armor -f
+sudo curl -sSL https://agent.armor.com/latest/armor_agent.sh | sudo bash /dev/stdin -l BCDHC-FKWCQ-6J6JP-PBPF4-DWCPM -r us-west-armor -f
 
 #--- Metadata and index.html files ---
 banner "Generating webserver metadata"
@@ -68,17 +68,21 @@ case "$PRETTYpretty" in
     cat /var/www/html/ascii-art-ubuntu.ans
     ;;
   *Amazon*)
-    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-AWSLinux.ans 2>/dev/null
+    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-AWSLinux.ans -O /var/www/html/ascii-art-AWSLinux.ans 2>/dev/null
     wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-AWSLinux.html -O /var/www/html/index.html 2>/dev/null
-    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /home/ec2-user/.bashrc 2>/dev/null
+    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /bashrc_append.txt 2>/dev/null
+    cat /bashrc_append.txt >> /home/ec2-user/.bashrc
     wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /root/.bashrc 2>/dev/null
-    cat ascii-art-AWSLinux.ans ;;
-  *CENtos*)
-    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-centos1.ans 2>/dev/null
+    sudo cat /var/www/html/ascii-art-AWSLinux.ans
+    ;;
+  *CentOS*)
+    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-centos1.ans -O /var/www/html/ascii-art-centos1.ans 2>/dev/null
     wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-centos1.html -O /var/www/html/index.html 2>/dev/null
-    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /home/centos/.bashrc 2>/dev/null
+    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /bashrc_append.txt 2>/dev/null
+    cat /bashrc_append.txt >> /home/centos/.bashrc
     wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /root/.bashrc 2>/dev/null
-    cat ascii-art-centos1.ans ;;
+    sudo cat /var/www/html/ascii-art-centos1.ans
+    ;;
   *Debian*)
     wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-debian.ans -O /var/www/html/ascii-art-debian.ans 2>/dev/null
     wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-debian.html -O /var/www/html/index.html 2>/dev/null
@@ -87,24 +91,30 @@ case "$PRETTYpretty" in
     wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /root/.bashrc 2>/dev/null
     sudo cat /var/www/html/ascii-art-debian.ans
     ;;
-  *RHEL*)
-    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/scii-art-RHEL.ans 2>/dev/null
+  *'Red Hat'*)
+    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-RHEL.ans -O /var/www/html/ascii-art-RHEL.ans 2>/dev/null
     wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-RHEL.html -O /var/www/html/index.html 2>/dev/null
-    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /home/ec2-user/.bashrc 2>/dev/null
+    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /bashrc_append.txt 2>/dev/null
+    cat /bashrc_append.txt >> /home/ec2-user/.bashrc
     wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /root/.bashrc 2>/dev/null
-    cat ascii-art-RHEL.ans ;;
-  *suse*)
-    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/scii-art-suse1.ans 2>/dev/null
-    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-suse1.html -O /var/www/html/index.html 2>/dev/null
-    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /home/ec2-user/.bashrc 2>/dev/null
+    sudo cat /var/www/html/ascii-art-RHEL.ans
+    ;;
+  *SUSE*)
+    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-suse2.ans -O /srv/www/htdocs/ascii-art-suse2.ans 2>/dev/null
+    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-suse2.html -O /srv/www/htdocs/index.html 2>/dev/null
+    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /bashrc_append.txt 2>/dev/null
+    cat /bashrc_append.txt >> /home/ec2-user/.bashrc
     wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /root/.bashrc 2>/dev/null
-    cat ascii-art-suse1.ans ;;
-  *fedora*)
-    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-fedora.ans 2>/dev/null
+    sudo cat /srv/www/htdocs/ascii-art-suse2.ans
+    ;;
+  *Fedora*)
+    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-fedora.ans -O /var/www/html/ascii-art-fedora.ans 2>/dev/null
     wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/ansiart/ascii-art-fedora.html -O /var/www/html/index.html 2>/dev/null
-    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /home/ec2-user/.bashrc 2>/dev/null
+    wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /bashrc_append.txt 2>/dev/null
+    cat /bashrc_append.txt >> /home/ec2-user/.bashrc
     wget -N https://armorscripts.s3.amazonaws.com/BASHscripts/bashrc.txt -O /root/.bashrc 2>/dev/null
-    cat ascii-art-fedora.ans ;;
+    sudo cat /var/www/html/ascii-art-fedora.ans
+    ;;
   *)
     printf '%s\n\n' "This is some other version of linux"
     ;;
@@ -118,16 +128,19 @@ REGION=$(TOKEN=`curl -sS -X PUT "http://169.254.169.254/latest/api/token" -H "X-
 AVAIL_ZONE=$(TOKEN=`curl -sS -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` 2>/dev/null && curl -sS -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/placement/availability-zone 2>/dev/null)
 PRIVATE_IP=$(TOKEN=`curl -sS -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` 2>/dev/null && curl -sS -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/local-ipv4 2>/dev/null)
 PUBLIC_IP=$(TOKEN=`curl -sS -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` 2>/dev/null && curl -sS -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null)
+PUBLIC_HOSTNAME=$(TOKEN=`curl -sS -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` 2>/dev/null && curl -sS -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/public-hostname 2>/dev/null)
 
 #CREATE and set new HOSTNAME, /etc/hosts file, /etc/sysconfig/network file
-NEWprivatehostname="craigums-$PRIVATE_IP-$AVAIL_ZONE-$PRETTYpretty-$INSTANCE_ID"
-NEWpublichostname="craigums-$PUBLIC_IP-$AVAIL_ZONE-$PRETTYpretty-$INSTANCE_ID"
+NEWprivatehostname="Ubuntu-$PRIVATE_IP-$AVAIL_ZONE-$PRETTYpretty-$INSTANCE_ID"
+NEWpublichostname="Ubuntu-$PUBLIC_IP-$AVAIL_ZONE-$PRETTYpretty-$INSTANCE_ID"
 #VarPUB="$(echo "$NEWpublichostname" | tr -d ' ')"
 #VarPRI="$(echo "$NEWprivatehostname" | tr -d ' ')"
 
 #VarPUB="$(echo "$NEWpublichostname" | cut -d ' ')"
-VarPUB="$( cut -d ' ' -f 1 <<< "$NEWpublichostname" )"-"$INSTANCE_ID"; echo "$VarPUB"
-VarPRI="$( cut -d ' ' -f 1 <<< "$NEWprivatehostname" )"-"$INSTANCE_ID"; echo "$VarPRI"
+#VarPUB="$( cut -d ' ' -f 1 <<< "$NEWpublichostname" )"-"$INSTANCE_ID"; echo "$VarPUB"
+#VarPRI="$( cut -d ' ' -f 1 <<< "$NEWprivatehostname" )"-"$INSTANCE_ID"; echo "$VarPRI"
+VarPRI="UBUNTU-$PRIVATE_IP-$AVAIL_ZONE"-"$INSTANCE_ID"
+VarPUB="UBUNTU-$PUBLIC_IP-$AVAIL_ZONE"-"$INSTANCE_ID"
 
 echo "NEW Private hostname:"$NEWprivatehostname
 echo "NEW Public hostname:"$NEWpublichostname
@@ -173,14 +186,14 @@ configLine "$PRIVATE_IP $VarPRI" "$PRIVATE_IP $VarPRI $PRIVATE_DNS" /etc/hosts
 printf '%s\n\n'
 printf "%20s%b\n" "PRETTY Linux Name : " "$PRETTYpretty" | tee /var/www/html/file.txt
 printf "%20s%b\n" "INSTANCE ID : " "$INSTANCE_ID"  | tee -a /var/www/html/file.txt
-printf "%20s%b\n" "HOSTNAME : " "$VarPUB" | tee -a /var/www/html/file.txt
+printf "%20s%b\n" "PUBLIC HOSTNAME : " "$PUBLIC_HOSTNAME" | tee -a /var/www/html/file.txt
+printf "%20s%b\n" "PRIVATE HOSTNAME : " "$HOSTNAME" | tee -a /var/www/html/file.txt
+printf "%20s%b\n" "LOCAL HOSTNAME : " "$VarPRI" | tee -a /var/www/html/file.txt
 printf "%20s%b\n" "REGION : " "$REGION" | tee -a /var/www/html/file.txt
 printf "%20s%b\n" "AVAILABILITY ZONE : " "$AVAIL_ZONE" | tee -a /var/www/html/file.txt
 printf "%20s%b\n" "PRIVATE IP : " "$PRIVATE_IP" | tee -a /var/www/html/file.txt
 printf "%20s%b\n" "PUBLIC IP : " "$PUBLIC_IP" | tee -a /var/www/html/file.txt
 
-printf "%20s%b\n" "PRIVATE DNS : " "$VarPRI" | tee -a /var/www/html/file.txt
-printf "%20s%b\n" "PUBLIC DNS : " "$VarPUB" | tee -a /var/www/html/file.txt
 printf '%s\n\n'
 
 set -o allexport
