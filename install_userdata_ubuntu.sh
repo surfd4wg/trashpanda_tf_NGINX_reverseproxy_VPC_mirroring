@@ -48,7 +48,7 @@ sudo echo "WHO I AM:"$WHOIAM
 
 #--- Armor Agent ---
 banner "Installing the Armor Agent"
-sudo curl -sSL https://agent.armor.com/latest/armor_agent.sh | sudo bash /dev/stdin -l BCDHC-FKWCQ-6J6JP-PBPF4-DWCPM -r us-west-armor -f
+sudo curl -sSL https://agent.armor.com/latest/armor_agent.sh | sudo bash /dev/stdin -l XXXXX-XXXXX-XXXXX-XXXXX-XXXXX -r us-west-armor -f
 
 #--- Metadata and index.html files ---
 banner "Generating webserver metadata"
