@@ -1,20 +1,23 @@
-#  ubuntu 18.04 vm and Point a DNS to instance and wait 30secs to propagate
+NGINX reverse proxy
 
-All ports should be open to internet.
+Inbound ports:
+* tcp 80/443/22
+* udp 4789
 
-dashboard.nginx.clientidentifier.redlocust.cloud
+Example URL: dashboard.nginx.clientidentifier.redlocust.cloud
 
-# Ex: like this. clientidentifier is the client identifier.
-# Place all of these files in the /etc/ directory
-# You must run these scripts as root
-# First run first script
+Ex: like this. clientidentifier is the client identifier.
+Place all of these /src/* files in the /etc/ directory
+You must run these scripts as root
+First run first script
+```
 bash nginx-install-prereqs.sh --mysqlpwd password --nginxpwd password --nomfa --installmysql
-
-# Then run second script
-bash guaca-nginx.sh clientidentifier
-# Where clientIdentifier = 'customer name'. ex: acmecorp
-
-Now navigate to dashboard.nginxamole.clientidentifier.redlocust.cloud
-dashboard.nginxamole.clientidentifier.redlocust.cloud
+```
+Then run second script, Where clientIdentifier = 'customer name'. ex: acmecorp
+```
+bash nginx-install-nginx.sh clientidentifier
+```
+Now navigate to dashboard.nginx.clientidentifier.redlocust.cloud
+https://dashboard.nginx.clientidentifier.redlocust.cloud
 
 Default login (username/password): nginxadmin/nginxadmin
