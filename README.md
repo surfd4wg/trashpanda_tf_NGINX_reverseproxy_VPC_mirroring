@@ -6,10 +6,10 @@ Inbound ports:
 
 Example URL: dashboard.nginx.clientidentifier.redlocust.cloud
 
-# Ex: like this. clientidentifier is the client identifier.
-# Place all of these files in the /etc/ directory
-# You must run these scripts as root
-# First run first script
+Ex: like this. clientidentifier is the client identifier.
+Place all of these /src/* files in the /etc/ directory
+You must run these scripts as root
+First run first script
 ```
 bash nginx-install-prereqs.sh --mysqlpwd password --nginxpwd password --nomfa --installmysql
 ```
